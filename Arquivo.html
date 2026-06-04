@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html class="tw-h-full tw-overflow-x-hidden tw-w-screen" lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <title>Plataforma de Entretenimento · Dashboard</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --font-size-root: 12px;
+            --body-font-family: "Poppins", sans-serif;
+            --heading-font-family: var(--body-font-family);
+            --top-bar-height: 64px;
+            --bottom-bar-height: 56px;
+        }
+        
+        * {
+            font-family: 'Poppins', sans-serif !important;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0f172a; /* Slate 900 */
+            color: #f8fafc;
+        }
+
+        /* Estilização e Efeitos dos Cards de Jogos baseados no seu arquivo original */
+        .casino-square-game {
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .casino-square-game:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .casino-image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            aspect-ratio: 3/4;
+        }
+
+        .casino-overlay-button {
+            left: 50%;
+            opacity: 0;
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s ease;
+        }
+
+        .casino-image-container:hover .casino-overlay-button {
+            opacity: 1;
+        }
+
+        .casino-image-container:hover img {
+            filter: brightness(40%) scale(1.05);
+        }
+
+        .casino-image-container img {
+            transition: transform 0.3s ease, filter 0.3s ease;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="tw-h-full tw-w-full flex flex-col overflow-y-auto">
+
+    <header class="w-full bg-slate-800 border-b border-slate-700 h-[64px] flex items-center justify-between px-4 sticky top-0 z-50">
+        <div class="flex items-center gap-3">
+            <div class="bg-indigo-600 p-2 rounded-lg text-white">
+                <i data-lucide="gamepad-2"></i>
+            </div>
+            <span class="text-xl font-bold tracking-wider text-slate-100">ARENA<span class="text-indigo-500">PLAY</span></span>
+        </div>
+        
+        <div class="flex items-center gap-4">
+            <div class="hidden md:flex bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-700 items-center gap-2">
+                <span class="text-xs text-slate-400 font-medium">Saldo:</span>
+                <span class="text-sm font-semibold text-emerald-400" id="user-balance">R$ 500,00</span>
+            </div>
+            <button class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs md:text-sm font-medium px-4 py-2 rounded-lg transition-colors flex items-center gap-2">
+                <i data-lucide="wallet" class="w-4 h-4"></i> Depósito
+            </button>
+            <div class="w-8 h-8 rounded-full bg-slate-600 border border-slate-500 flex items-center justify-center font-bold text-sm">
+                U
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 space-y-6 mb-[60px] md:mb-0">
+        
+        <div class="w-full bg-gradient-to-r from-indigo-900 via-purple-900 to-slate-800 rounded-2xl p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6 border border-indigo-500/20 shadow-xl">
+            <div class="space-y-3 text-center md:text-left">
+                <span class="bg-indigo-500/20 text-indigo-300 text-xs font-semibold px-3 py-1 rounded-full border border-indigo-500/30">Novo Lançamento</span>
+                <h1 class="text-2xl md:text-4xl font-extrabold text-white leading-tight">Explore o Universo dos Mini-Games</h1>
+                <p class="text-slate-300 text-sm md:text-base max-w-md">Multiplicadores rápidos, interface intuitiva e desempenho instantâneo direto no seu navegador.</p>
+                <div class="pt-2">
+                    <button class="bg-emerald-500 hover:bg-emerald-600 text-slate-900 font-bold px-6 py-2.5 rounded-xl text-sm transition-transform hover:scale-105">
+                        Jogar Agora
+                    </button>
+                </div>
+            </div>
+            <div class="w-40 h-40 md:w-52 md:h-52 bg-slate-700/30 rounded-2xl border border-slate-600/50 flex items-center justify-center text-indigo-400 shadow-inner">
+                <i data-lucide="sparkles" class="w-20 h-20 animate-pulse"></i>
+            </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between bg-slate-800/50 p-3 rounded-xl border border-slate-700">
+            <div class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0" id="category-container">
+                <button onclick="filterCategory('todos')" class="category-btn active bg-indigo-600 text-white text-xs font-medium px-4 py-2 rounded-lg whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i data-lucide="layout-grid" class="w-4 h-4"></i> Todos
+                </button>
+                <button onclick="filterCategory('populares')" class="category-btn bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs font-medium px-4 py-2 rounded-lg whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i data-lucide="flame" class="w-4 h-4"></i> Populares
+                </button>
+                <button onclick="filterCategory('slots')" class="category-btn bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs font-medium px-4 py-2 rounded-lg whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i data-lucide="dices" class="w-4 h-4"></i> Slots
+                </button>
+                <button onclick="filterCategory('crash')" class="category-btn bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs font-medium px-4 py-2 rounded-lg whitespace-nowrap transition-colors flex items-center gap-2">
+                    <i data-lucide="trending-up" class="w-4 h-4"></i> Crash Games
+                </button>
+            </div>
+            
+            <div class="relative flex-1 md:max-w-xs">
+                <i data-lucide="search" class="absolute left-3 top-2.5 w-4 h-4 text-slate-400"></i>
+                <input type="text" id="search-input" oninput="searchGames()" placeholder="Buscar jogo..." class="w-full bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-4 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+            </div>
+        </div>
+
+        <div>
+            <h2 class="text-lg font-bold text-slate-200 mb-4 flex items-center gap-2">
+                <i data-lucide="shapes" class="text-indigo-500 w-5 h-5"></i> Todos os Títulos
+            </h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4" id="games-grid">
+                </div>
+        </div>
+    </main>
+
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 h-[56px] bg-slate-800 border-t border-slate-700 flex items-center justify-around px-2 z-40">
+        <button class="flex flex-col items-center gap-1 text-indigo-400">
+            <i data-lucide="home" class="w-5 h-5"></i>
+            <span class="text-[10px] font-medium">Início</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200">
+            <i data-lucide="star" class="w-5 h-5"></i>
+            <span class="text-[10px] font-medium">Favoritos</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-200">
+            <i data-lucide="history" class="w-5 h-5"></i>
+            <span class="text-[10px] font-medium">Histórico</span>
+        </button>
+    </nav>
+
+    <div id="game-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[9999] hidden items-center justify-center p-4">
+        <div class="bg-slate-900 w-full max-w-4xl rounded-2xl border border-slate-700 overflow-hidden shadow-2xl flex flex-col">
+            <div class="bg-slate-800 p-4 border-b border-slate-700 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="play-circle" class="text-indigo-500 w-5 h-5"></i>
+                    <h3 id="modal-game-title" class="font-bold text-slate-100">Nome do Jogo</h3>
+                </div>
+                <button onclick="closeGame()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-700 transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="bg-slate-950 aspect-video w-full flex flex-col items-center justify-center p-6 relative">
+                <div class="text-center space-y-4">
+                    <div class="relative w-16 h-16 mx-auto">
+                        <div class="absolute inset-0 rounded-full border-4 border-indigo-500/20"></div>
+                        <div class="absolute inset-0 rounded-full border-4 border-t-indigo-500 animate-spin"></div>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-slate-300">Carregando ambiente seguro do jogo...</p>
+                        <p class="text-xs text-slate-500 mt-1">Sua sessão está protegida de ponta a ponta.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-slate-800 p-3 text-center text-xs text-slate-400 border-t border-slate-700">
+                Modo de Demonstração Interativa ativo.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Banco de dados simulado de jogos
+        const gamesData = [
+            { id: 1, title: "Embaixadinha Pro", category: "crash", color: "from-amber-500 to-orange-600", icon: "zap" },
+            { id: 2, title: "Mestre das Minas", category: "populares", color: "from-blue-600 to-indigo-700", icon: "bomb" },
+            { id: 3, title: "Linhas da Sorte", category: "slots", color: "from-emerald-500 to-teal-600", icon: "coins" },
+            { id: 4, title: "Subida Alucinante", category: "crash", color: "from-rose-500 to-red-600", icon: "trending-up" },
+            { id: 5, title: "Giro Imperial", category: "slots", color: "from-purple-600 to-fuchsia-700", icon: "crown" },
+            { id: 6, title: "Dados de Ouro", category: "populares", color: "from-cyan-500 to-blue-600", icon: "dice-5" },
+            { id: 7, title: "Frutas Tropicais", category: "slots", color: "from-lime-500 to-green-600", icon: "cherry" },
+            { id: 8, title: "Foguete Multiplicador", category: "crash", color: "from-violet-600 to-purple-800", icon: "rocket" }
+        ];
+
+        // Renderizar os jogos na tela inicialmente
+        function renderGames(games) {
+            const grid = document.getElementById('games-grid');
+            grid.innerHTML = '';
+
+            if(games.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12 text-slate-500 text-sm">
+                        Nenhum jogo encontrado para a busca realizada.
+                    </div>
+                `;
+                return;
+            }
+
+            games.forEach(game => {
+                const gameCard = document.createElement('div');
+                gameCard.className = 'casino-square-game bg-slate-800 border border-slate-700/60 p-2 flex flex-col gap-2';
+                gameCard.setAttribute('onclick', `openGame('${game.title}')`);
+                
+                gameCard.innerHTML = `
+                    <div class="casino-image-container bg-gradient-to-br ${game.color} flex items-center justify-center text-white shadow-inner relative">
+                        <i data-lucide="${game.icon}" class="w-12 h-12 stroke-[1.5]"></i>
+                        <div class="casino-overlay-button">
+                            <button class="bg-white text-slate-950 rounded-full p-3 shadow-lg transform hover:scale-110 transition-transform">
+                                <i data-lucide="play" class="w-5 h-5 fill-current text-slate-950"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="px-1 py-0.5">
+                        <h3 class="text-xs font-semibold text-slate-200 truncate">${game.title}</h3>
+                        <p class="text-[10px] text-slate-400 capitalize mt-0.5">${game.category}</p>
+                    </div>
+                `;
+                grid.appendChild(gameCard);
+            });
+            
+            // Recarrega os ícones injetados dinamicamente
+            lucide.createIcons();
+        }
+
+        // Sistema de Filtragem por Categoria
+        function filterCategory(category) {
+            // Ajustar estados visuais dos botões
+            const buttons = document.querySelectorAll('.category-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-indigo-600', 'text-white');
+                btn.classList.add('bg-slate-800', 'text-slate-300');
+            });
+
+            event.currentTarget.classList.remove('bg-slate-800', 'text-slate-300');
+            event.currentTarget.classList.add('bg-indigo-600', 'text-white');
+
+            if (category === 'todos') {
+                renderGames(gamesData);
+            } else {
+                const filtered = gamesData.filter(g => g.category === category);
+                renderGames(filtered);
+            }
+            document.getElementById('search-input').value = '';
+        }
+
+        // Sistema de Busca Instantânea
+        function searchGames() {
+            const term = document.getElementById('search-input').value.toLowerCase();
+            const filtered = gamesData.filter(g => g.title.toLowerCase().includes(term));
+            renderGames(filtered);
+        }
+
+        // Lógica do Modal do Jogo
+        function openGame(title) {
+            document.getElementById('modal-game-title').innerText = title;
+            const modal = document.getElementById('game-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden'; // Trava o scroll de fundo
+        }
+
+        function closeGame() {
+            const modal = document.getElementById('game-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+            document.body.style.overflow = ''; // Libera o scroll
+        }
+
+        // Inicialização Inicial da Página
+        window.onload = () => {
+            renderGames(gamesData);
+            lucide.createIcons();
+        };
+    </script>
+</body>
+</html>
+
