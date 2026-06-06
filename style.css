@@ -1,0 +1,257 @@
+/* CSS Scoped for the Plugin using a class prefix */
+.blg-app-instance {
+    margin: 20px auto;
+    max-width: 480px;
+    width: 100%;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.blg-app-instance * {
+    box-sizing: border-box;
+}
+
+.blg-app-instance .app-container {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    width: 100%;
+    height: 620px;
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #2a2a2a;
+    transition: transform 0.3s ease;
+}
+
+.blg-app-instance .app-header {
+    background-color: #252525;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #333;
+    height: 56px;
+    gap: 8px;
+}
+
+.blg-app-instance .back-btn, 
+.blg-app-instance .menu-hamburger {
+    background: none;
+    border: none;
+    color: #ff4081;
+    font-size: 20px;
+    cursor: pointer;
+    display: none;
+}
+
+.blg-app-instance .menu-hamburger {
+    flex-direction: column;
+    gap: 5px;
+    z-index: 100;
+}
+
+.blg-app-instance .menu-hamburger span {
+    display: block;
+    width: 22px;
+    height: 3px;
+    background-color: #ff4081;
+    border-radius: 3px;
+}
+
+.blg-app-instance .app-title {
+    font-weight: bold;
+    font-size: 13px;
+    color: #fff;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.blg-app-instance .status-badge {
+    background-color: #ff9800;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.blg-app-instance .app-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #1e1e1e;
+}
+
+.blg-app-instance .fingerprint-icon {
+    font-size: 42px;
+    animation: glowIcon 2.5s infinite ease-in-out;
+}
+
+@keyframes glowIcon {
+    0% { opacity: 0.6; transform: scale(0.96); }
+    50% { opacity: 1; transform: scale(1.04); }
+    100% { opacity: 0.6; transform: scale(0.96); }
+}
+
+/* Sidebar Menu */
+.blg-app-instance .sidebar-menu {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 80%;
+    height: 100%;
+    background-color: #1a1a1a;
+    z-index: 99;
+    box-shadow: 5px 0 25px rgba(0,0,0,0.8);
+    transition: 0.4s cubic-bezier(0.1, 0.9, 0.2, 1);
+    padding: 60px 15px 20px 15px;
+}
+
+.blg-app-instance .sidebar-menu.open {
+    left: 0;
+}
+
+.blg-app-instance .menu-item {
+    display: block;
+    padding: 12px 15px;
+    color: #ddd;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background: #252525;
+    font-size: 13px;
+    border-left: 4px solid transparent;
+    transition: all 0.2s;
+}
+
+.blg-app-instance .menu-item:hover, 
+.blg-app-instance .menu-item.active-menu {
+    background: #2a2a2a;
+    color: #ff4081;
+    border-left-color: #ff4081;
+}
+
+/* Post Cards */
+.blg-app-instance .post-card {
+    background: #252525;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    display: flex;
+    gap: 12px;
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.blg-app-instance .avatar-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #fff;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.blg-app-instance .post-main { flex: 1; }
+.blg-app-instance .post-header { display: flex; justify-content: space-between; font-size: 11px; color: #888; margin-bottom: 6px; }
+.blg-app-instance .post-author { font-weight: bold; color: #fff; }
+.blg-app-instance .post-body { font-size: 13px; color: #eee; line-height: 1.4; word-break: break-word; }
+
+/* Chat UI */
+.blg-app-instance .chat-room-ui {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #1a1a1a;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #333;
+}
+
+.blg-app-instance .chat-messages-display {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 260px;
+    background: #1e1e1e;
+}
+
+.blg-app-instance .chat-msg {
+    max-width: 80%;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 12.5px;
+    line-height: 1.4;
+}
+
+.blg-app-instance .chat-msg.msg-me { background: #ff4081; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+.blg-app-instance .chat-msg.msg-them { background: #2a2a2a; color: white; align-self: flex-start; border-bottom-left-radius: 2px; }
+
+/* Toast */
+.blg-app-instance .toast-notification {
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 64, 129, 0.95);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 1000;
+    display: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* Retention/Engagement Elements */
+.blg-app-instance .retention-banner {
+    background: linear-gradient(45deg, #ff4081, #7c4dff);
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 12px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.blg-app-instance .btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 13px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    transition: filter 0.2s;
+}
+
+.blg-app-instance .btn:active { transform: scale(0.98); }
+.blg-app-instance .btn-primary { background-color: #ff4081; color: white; }
+
+.blg-app-instance .screen { display: none; }
+.blg-app-instance .screen.active-screen { display: block; }
+  
